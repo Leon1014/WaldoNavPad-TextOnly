@@ -65,13 +65,11 @@ codeunit 82111 "WaldoNAVPad Text Parse Meth"
     begin
         LineNo += 1;
 
-        with ResultWaldoNAVPadTextBuffer do begin
-            INIT();
-            "Line No." := LineNo;
-            Textline := CopyStr(Line, 1, 250);
-            Separator := pSeparator;
-            INSERT();
-        end;
+        ResultWaldoNAVPadTextBuffer.Init();
+        ResultWaldoNAVPadTextBuffer."Line No." := LineNo;
+        ResultWaldoNAVPadTextBuffer.Textline := CopyStr(Line, 1, 250);
+        ResultWaldoNAVPadTextBuffer.Separator := pSeparator;
+        ResultWaldoNAVPadTextBuffer.Insert();
     end;
 
     [IntegrationEvent(false, false)]
