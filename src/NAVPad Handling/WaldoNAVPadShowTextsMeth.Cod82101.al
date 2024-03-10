@@ -77,4 +77,3 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
     begin
     end;
 }
-

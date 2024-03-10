@@ -27,7 +27,6 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     local procedure UpdateTextForRecord(var WaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class"; var RecRef: RecordRef);
     begin
         SaveTextToBlob(WaldoNAVPadTextClass.GetHTML(), RecRef);
-        ;
         SaveTextToRecords(WaldoNAVPadTextClass, RecRef);
     end;
 
@@ -57,21 +56,21 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     var
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
         TempBlob: Codeunit "Temp Blob";
-        WriterStream: OutStream;
-        ReaderStream: InStream;
-        TempText: Text;
+        Writer: OutStream;
+        Reader: InStream;
+        ReadText: Text;
     begin
-        with WaldoNAVPadBlobstore do begin
-            GetBlobFromText(Text, TempBlob);
-            TempBlob.CreateInStream(ReaderStream);
-            INIT();
-            "Record ID" := RecRef.RECORDID();
-            Blob.CreateOutStream(WriterStream);
-            ReaderStream.ReadText(TempText);
-            WriterStream.WriteText(TempText);
-            TableNo := RecRef.NUMBER();
-            INSERT();
+        GetBlobFromText(Text, TempBlob);
+        TempBlob.CreateInStream(Reader);
+        WaldoNAVPadBlobstore.Init();
+        WaldoNAVPadBlobstore."Record ID" := RecRef.RecordId();
+        WaldoNAVPadBlobstore.Blob.CreateOutStream(Writer);
+        while not Reader.EOS do begin
+            Reader.ReadText(ReadText);
+            Writer.WriteText(ReadText);
         end;
+        WaldoNAVPadBlobstore.TableNo := RecRef.Number();
+        WaldoNAVPadBlobstore.Insert();
     end;
 
     local procedure SaveTextToRecords(var WaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class"; var RecRef: RecordRef);
@@ -117,9 +116,9 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
         TextBigText: BigText;
         WriteStream: OutStream;
     begin
-        TempBlob.CREATEOUTSTREAM(WriteStream);
-        TextBigText.ADDTEXT(Text);
-        TextBigText.WRITE(WriteStream);
+        TempBlob.CreateOutStream(WriteStream);
+        TextBigText.AddText(Text);
+        TextBigText.Write(WriteStream);
     end;
 
     local procedure OnBeforeSaveTexts(var Handled: Boolean);
@@ -130,4 +129,3 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     begin
     end;
 }
-
