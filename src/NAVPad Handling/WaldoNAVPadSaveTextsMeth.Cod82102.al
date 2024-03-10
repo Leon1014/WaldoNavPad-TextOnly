@@ -45,10 +45,8 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     var
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
     begin
-        with WaldoNAVPadBlobstore do begin
-            SETRANGE("Record ID", RecRef.RECORDID());
-            DELETEALL(false);
-        end;
+        WaldoNAVPadBlobstore.SetRange("Record ID", RecRef.RecordId());
+        WaldoNAVPadBlobstore.DeleteAll(false);
     end;
 
     local procedure InsertWPNBlobForRecord(var Text: Text; var RecRef: RecordRef);

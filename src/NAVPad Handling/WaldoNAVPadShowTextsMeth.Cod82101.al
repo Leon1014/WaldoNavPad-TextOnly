@@ -45,10 +45,8 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
     var
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
-        with ResultWaldoNAVPadTextClass do begin
-            Initialize(TextFromBlob, MAXSTRLEN(WaldoNAVPadTextstore.Textline));
-            LoadTextFromDialog(Editable);
-        end;
+        ResultWaldoNAVPadTextClass.Initialize(TextFromBlob, MaxStrLen(WaldoNAVPadTextstore.Textline));
+        ResultWaldoNAVPadTextClass.LoadTextFromDialog(Editable);
     end;
 
     [IntegrationEvent(false, false)]
