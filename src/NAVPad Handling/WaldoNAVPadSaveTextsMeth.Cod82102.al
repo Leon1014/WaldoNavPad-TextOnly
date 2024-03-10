@@ -32,8 +32,7 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
 
     local procedure FilterWaldoNAVPadTexts(var WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore"; var RecRef: RecordRef);
     begin
-        with WaldoNAVPadTextstore do
-            SETRANGE("Record ID", RecRef.RECORDID());
+        WaldoNAVPadTextstore.SetRange("Record ID", RecRef.RECORDID());
     end;
 
     local procedure SaveTextToBlob(Text: Text; var RecRef: RecordRef);
@@ -55,20 +54,14 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     local procedure InsertWPNBlobForRecord(var Text: Text; var RecRef: RecordRef);
     var
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
-        TempBlob: Codeunit "Temp Blob";
         Writer: OutStream;
-        Reader: InStream;
-        ReadText: Text;
+        TextBigText: BigText;
     begin
-        GetBlobFromText(Text, TempBlob);
-        TempBlob.CreateInStream(Reader);
         WaldoNAVPadBlobstore.Init();
         WaldoNAVPadBlobstore."Record ID" := RecRef.RecordId();
         WaldoNAVPadBlobstore.Blob.CreateOutStream(Writer);
-        while not Reader.EOS do begin
-            Reader.ReadText(ReadText);
-            Writer.WriteText(ReadText);
-        end;
+        TextBigText.AddText(Text);
+        TextBigText.Write(Writer);
         WaldoNAVPadBlobstore.TableNo := RecRef.Number();
         WaldoNAVPadBlobstore.Insert();
     end;
@@ -89,36 +82,22 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
 
     local procedure InsertWPNTextForRecord(var WaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class"; var RecRef: RecordRef);
     begin
-        with WaldoNAVPadTextClass do
-            if FINDFIRST() then
-                repeat
-                    InsertWPNText(GetCurrentTextLine(), RecRef);
-                until NEXT() < 1;
+        if WaldoNavPadTextClass.FINDFIRST() then begin
+            repeat
+                InsertWPNText(WaldoNAVPadTextClass.GetCurrentTextLine(), RecRef);
+            until WaldoNAVPadTextClass.NEXT() < 1;
+        end;
     end;
 
     local procedure InsertWPNText(pTextline: Text; var RecRef: RecordRef);
     var
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
-        with WaldoNAVPadTextstore do begin
-            INIT();
-
-            Textline := copystr(pTextline, 1, MaxStrLen(Textline));
-            "Record ID" := RecRef.RECORDID();
-            TableNo := RecRef.NUMBER();
-
-            INSERT();
-        end;
-    end;
-
-    local procedure GetBlobFromText(Text: Text; var TempBlob: Codeunit "Temp Blob");
-    var
-        TextBigText: BigText;
-        WriteStream: OutStream;
-    begin
-        TempBlob.CreateOutStream(WriteStream);
-        TextBigText.AddText(Text);
-        TextBigText.Write(WriteStream);
+        WaldoNAVPadTextstore.Init();
+        WaldoNAVPadTextstore.Textline := CopyStr(pTextline, 1, MaxStrLen(WaldoNAVPadTextstore.Textline));
+        WaldoNAVPadTextstore."Record ID" := RecRef.RecordId();
+        WaldoNAVPadTextstore.TableNo := RecRef.Number();
+        WaldoNavPadTextStore.Insert();
     end;
 
     local procedure OnBeforeSaveTexts(var Handled: Boolean);
