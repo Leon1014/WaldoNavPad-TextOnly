@@ -4,16 +4,16 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
     begin
     end;
 
-    procedure ShowTexts(Editable: Boolean; UseHTMLEditor: Boolean; var RecRef: RecordRef; var ReturnWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class");
+    procedure ShowTexts(Editable: Boolean; var RecRef: RecordRef; var ReturnWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class");
     var
         Handled: Boolean;
     begin
         OnBeforeShowTexts(RecRef, Handled);
-        DoShowTexts(Editable, UseHTMLEditor, RecRef, ReturnWaldoNAVPadTextClass, Handled);
+        DoShowTexts(Editable, RecRef, ReturnWaldoNAVPadTextClass, Handled);
         OnAfterShowTexts(RecRef);
     end;
 
-    local procedure DoShowTexts(Editable: Boolean; UseHTMLEditor: Boolean; var RecRef: RecordRef; var ReturnWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class"; Handled: Boolean);
+    local procedure DoShowTexts(Editable: Boolean; var RecRef: RecordRef; var ReturnWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class"; Handled: Boolean);
     var
         TextFromBlob: Text;
     begin
@@ -21,7 +21,7 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
 
         TextFromBlob := GetTextFromWaldoNAVPadBlob(RecRef);
 
-        LoadTextfromDialog(TextFromBlob, Editable, UseHTMLEditor, ReturnWaldoNAVPadTextClass);
+        LoadTextfromDialog(TextFromBlob, Editable, ReturnWaldoNAVPadTextClass);
     end;
 
     local procedure GetTextFromWaldoNAVPadBlob(var RecRef: RecordRef): Text;
@@ -47,13 +47,13 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
         end;
     end;
 
-    local procedure LoadTextfromDialog(var TextFromBlob: Text; Editable: Boolean; UseHTMLEditor: Boolean; var ResultWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class");
+    local procedure LoadTextfromDialog(var TextFromBlob: Text; Editable: Boolean; var ResultWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class");
     var
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
         with ResultWaldoNAVPadTextClass do begin
             Initialize(TextFromBlob, MAXSTRLEN(WaldoNAVPadTextstore.Textline));
-            LoadTextFromDialog(Editable, UseHTMLEditor);
+            LoadTextFromDialog(Editable);
         end;
     end;
 

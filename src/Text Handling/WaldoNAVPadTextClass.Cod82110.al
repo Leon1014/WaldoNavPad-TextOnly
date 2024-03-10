@@ -31,11 +31,11 @@ codeunit 82110 "WaldoNAVPad Text Class"
         FINDFIRST();
     end;
 
-    procedure LoadTextFromDialog(Editable: Boolean; UseHTMLEditor: Boolean);
+    procedure LoadTextFromDialog(Editable: Boolean);
     var
         WaldoNAVPadShowdialogMeth: Codeunit "WaldoNAVPad Showdialog Meth";
     begin
-        WaldoNAVPadShowdialogMeth.ShowDialog(CurrentText, CurrentHTML, CurrentTextIsUpdated, Editable, UseHTMLEditor);
+        WaldoNAVPadShowdialogMeth.ShowDialog(CurrentText, CurrentHTML, CurrentTextIsUpdated, Editable);
 
         if Editable then
             ParseText(CurrentText);
