@@ -21,16 +21,6 @@ codeunit 82110 "WaldoNAVPad Text Class"
         FINDFIRST();
     end;
 
-    procedure Initialize2(var Text: Text; var HTML: Text; pMaxLength: Integer);
-    begin
-        SetMaxLenght(pMaxLength);
-        CurrentText := Text;
-        CurrentHTML := HTML;
-        ParseText(CurrentText);
-
-        FINDFIRST();
-    end;
-
     procedure LoadTextFromDialog(Editable: Boolean);
     var
         WaldoNAVPadShowdialogMeth: Codeunit "WaldoNAVPad Showdialog Meth";
@@ -44,11 +34,6 @@ codeunit 82110 "WaldoNAVPad Text Class"
     procedure GetTextIsUpdated(): Boolean;
     begin
         exit(CurrentTextIsUpdated);
-    end;
-
-    procedure GetText(): Text;
-    begin
-        exit(CurrentText);
     end;
 
     procedure GetHTML(): Text;
