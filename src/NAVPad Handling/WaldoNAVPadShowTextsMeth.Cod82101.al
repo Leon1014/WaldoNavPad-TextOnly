@@ -26,11 +26,8 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
 
     local procedure GetTextFromWaldoNAVPadBlob(var RecRef: RecordRef): Text;
     var
-        TempBlob: Codeunit "Temp Blob";
+        TempBlob: Record TempBlob;
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
-        ReaderStream: InStream;
-        WriterStream: OutStream;
-        TempText: Text;
     begin
         with WaldoNAVPadBlobstore do begin
             SETRANGE("Record ID", RecRef.RECORDID());
@@ -38,10 +35,7 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
             if not Blob.HASVALUE() then exit('');
 
             CALCFIELDS(Blob);
-            Blob.CreateInStream(ReaderStream);
-            TempBlob.CreateOutStream(WriterStream);
-            ReaderStream.ReadText(TempText);
-            WriterStream.WriteText(TempText);
+            TempBlob.Blob := Blob;
 
             exit(GetTextFromBlob(TempBlob));
         end;
@@ -57,12 +51,12 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
         end;
     end;
 
-    local procedure GetTextFromBlob(var TempBlob: Codeunit "Temp Blob"): Text;
+    local procedure GetTextFromBlob(var TempBlob: Record TempBlob): Text;
     var
         TextBigText: BigText;
         ReadStream: InStream;
     begin
-        TempBlob.CreateInStream(ReadStream);
+        TempBlob.Blob.CREATEINSTREAM(ReadStream);
         TextBigText.READ(ReadStream);
         exit(FORMAT(TextBigText));
     end;

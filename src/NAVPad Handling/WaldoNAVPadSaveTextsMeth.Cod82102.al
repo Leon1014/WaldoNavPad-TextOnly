@@ -56,19 +56,13 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     local procedure InsertWPNBlobForRecord(var Text: Text; var RecRef: RecordRef);
     var
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
-        TempBlob: Codeunit "Temp Blob";
-        WriterStream: OutStream;
-        ReaderStream: InStream;
-        TempText: Text;
+        TempBlob: Record TempBlob;
     begin
         with WaldoNAVPadBlobstore do begin
             GetBlobFromText(Text, TempBlob);
-            TempBlob.CreateInStream(ReaderStream);
             INIT();
             "Record ID" := RecRef.RECORDID();
-            Blob.CreateOutStream(WriterStream);
-            ReaderStream.ReadText(TempText);
-            WriterStream.WriteText(TempText);
+            Blob := TempBlob.Blob;
             TableNo := RecRef.NUMBER();
             INSERT();
         end;
@@ -112,12 +106,12 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
         end;
     end;
 
-    local procedure GetBlobFromText(Text: Text; var TempBlob: Codeunit "Temp Blob");
+    local procedure GetBlobFromText(Text: Text; var TempBlob: Record TempBlob);
     var
         TextBigText: BigText;
         WriteStream: OutStream;
     begin
-        TempBlob.CREATEOUTSTREAM(WriteStream);
+        TempBlob.Blob.CREATEOUTSTREAM(WriteStream);
         TextBigText.ADDTEXT(Text);
         TextBigText.WRITE(WriteStream);
     end;
