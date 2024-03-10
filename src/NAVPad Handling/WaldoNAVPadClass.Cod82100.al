@@ -17,22 +17,22 @@ codeunit 82100 "WaldoNAVPad Class"
         IsTextLoaded := false;
     end;
 
-    procedure ShowAndSaveTexts(Editable: Boolean; UseHTMLEditor: Boolean);
+    procedure ShowAndSaveTexts(Editable: Boolean);
     begin
         if not IsInitialized then ERROR(NotInitializedErr);
 
-        LoadTextFromDialog(Editable, UseHTMLEditor);
+        LoadTextFromDialog(Editable);
         if Editable then
             SaveText();
     end;
 
-    procedure LoadTextFromDialog(Editable: Boolean; UseHTMLEditor: Boolean): Boolean;
+    procedure LoadTextFromDialog(Editable: Boolean): Boolean;
     var
         WaldoNAVPadShowTextsMeth: Codeunit "WaldoNAVPad ShowTexts Meth";
     begin
         if not IsInitialized then ERROR(NotInitializedErr);
 
-        WaldoNAVPadShowTextsMeth.ShowTexts(Editable, UseHTMLEditor, CurrentRecRef, WaldoNAVPadTextClass);
+        WaldoNAVPadShowTextsMeth.ShowTexts(Editable, CurrentRecRef, WaldoNAVPadTextClass);
         IsTextLoaded := true;
     end;
 
