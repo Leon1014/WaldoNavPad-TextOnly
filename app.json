@@ -4,7 +4,7 @@
   "publisher": "Leon1014",
   "version": "1.0.0.0",
   "brief": "",
-  "description": "This repository hosts an optimized and simplified version of the Waldo Nav Pad, tailored for compatibility with newer versions of BC environments. Unlike the original, this iteration operates solely on text-based inputs and outputs, omitting HTML elements.",
+  "description": "This app hosts an optimized and simplified version of the Waldo Nav Pad, tailored for compatibility with newer versions of BC environments. Unlike the original, this iteration operates solely on text-based inputs and outputs, omitting HTML elements.",
   "privacyStatement": "",
   "EULA": "",
   "help": "",
