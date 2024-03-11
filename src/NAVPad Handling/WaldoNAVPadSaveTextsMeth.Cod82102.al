@@ -82,19 +82,20 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
     begin
         if WaldoNavPadTextClass.FINDFIRST() then begin
             repeat
-                InsertWPNText(WaldoNAVPadTextClass.GetCurrentTextLine(), RecRef);
+                InsertWPNText(WaldoNAVPadTextClass, RecRef);
             until WaldoNAVPadTextClass.NEXT() < 1;
         end;
     end;
 
-    local procedure InsertWPNText(pTextline: Text; var RecRef: RecordRef);
+    local procedure InsertWPNText(var WaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class"; var RecRef: RecordRef);
     var
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
         WaldoNAVPadTextstore.Init();
-        WaldoNAVPadTextstore.Textline := CopyStr(pTextline, 1, MaxStrLen(WaldoNAVPadTextstore.Textline));
         WaldoNAVPadTextstore."Record ID" := RecRef.RecordId();
         WaldoNAVPadTextstore.TableNo := RecRef.Number();
+        WaldoNAVPadTextstore.Textline := CopyStr(WaldoNAVPadTextClass.GetCurrentTextLine(), 1, MaxStrLen(WaldoNAVPadTextstore.Textline));
+        WaldoNAVPadTextstore.Separator := WaldoNAVPadTextClass.GetSeparator();
         WaldoNavPadTextStore.Insert();
     end;
 

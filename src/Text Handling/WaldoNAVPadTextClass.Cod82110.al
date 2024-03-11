@@ -59,6 +59,11 @@ codeunit 82110 "WaldoNAVPad Text Class"
         exit(WaldoNAVPadTextBuffer.Textline);
     end;
 
+    procedure GetSeparator(): Integer;
+    begin
+        exit(WaldoNAVPadTextBuffer.Separator);
+    end;
+
     procedure FINDFIRST(): Boolean;
     begin
         exit(WaldoNAVPadTextBuffer.FINDSET());
