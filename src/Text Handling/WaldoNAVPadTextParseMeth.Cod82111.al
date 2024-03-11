@@ -33,6 +33,8 @@ codeunit 82111 "WaldoNAVPad Text Parse Meth"
         LineArray := myText.Split(char10, char13);
         foreach Line in LineArray do
             ProcessLine(LineNo, Line, MaxLength, ResultWaldoNAVPadTextBuffer);
+
+        RemoveLastCarriageReturn(ResultWaldoNAVPadTextBuffer);
     end;
 
     local procedure ProcessLine(var LineNo: Integer; var Line: Text; MaxLength: Integer; var ResultWaldoNAVPadTextBuffer: Record "WaldoNAVPad Text Buffer");
@@ -70,6 +72,13 @@ codeunit 82111 "WaldoNAVPad Text Parse Meth"
         ResultWaldoNAVPadTextBuffer.Textline := CopyStr(Line, 1, 250);
         ResultWaldoNAVPadTextBuffer.Separator := pSeparator;
         ResultWaldoNAVPadTextBuffer.Insert();
+    end;
+
+    local procedure RemoveLastCarriageReturn(var ResultWaldoNAVPadTextBuffer: Record "WaldoNAVPad Text Buffer")
+    begin
+        ResultWaldoNAVPadTextBuffer.FindLast();
+        ResultWaldoNAVPadTextBuffer.Separator := ResultWaldoNAVPadTextBuffer.Separator::" ";
+        ResultWaldoNAVPadTextBuffer.Modify();
     end;
 
     [IntegrationEvent(false, false)]
