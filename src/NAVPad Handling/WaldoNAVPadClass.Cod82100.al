@@ -17,13 +17,17 @@ codeunit 82100 "WaldoNAVPad Class"
         IsTextLoaded := false;
     end;
 
-    procedure ShowAndSaveTexts(Editable: Boolean);
+    procedure ShowAndSaveTexts(Editable: Boolean): Boolean
     begin
         if not IsInitialized then ERROR(NotInitializedErr);
 
         LoadTextFromDialog(Editable);
-        if Editable then
+        if Editable then begin
             SaveText();
+            exit(WaldoNAVPadTextClass.GetTextIsUpdated());
+        end else
+            exit(false);
+
     end;
 
     procedure LoadTextFromDialog(Editable: Boolean): Boolean;

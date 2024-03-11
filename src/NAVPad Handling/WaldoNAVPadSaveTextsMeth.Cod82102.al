@@ -92,8 +92,8 @@ codeunit 82102 "WaldoNAVPad SaveTexts Meth"
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
         WaldoNAVPadTextstore.Init();
-        WaldoNAVPadTextstore."Record ID" := RecRef.RecordId();
         WaldoNAVPadTextstore.TableNo := RecRef.Number();
+        WaldoNAVPadTextstore."Record ID" := RecRef.RecordId();
         WaldoNAVPadTextstore.Textline := CopyStr(WaldoNAVPadTextClass.GetCurrentTextLine(), 1, MaxStrLen(WaldoNAVPadTextstore.Textline));
         WaldoNAVPadTextstore.Separator := WaldoNAVPadTextClass.GetSeparator();
         WaldoNavPadTextStore.Insert();
