@@ -24,10 +24,8 @@ codeunit 82103 "WaldoNAVPad TableHasText Meth"
     var
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
     begin
-        with WaldoNAVPadBlobstore do begin
-            SETRANGE(TableNo, pTableNo);
-            exit(not ISEMPTY());
-        end;
+        WaldoNAVPadBlobstore.SetRange(TableNo, pTableNo);
+        exit(not WaldoNAVPadBlobstore.IsEmpty());
     end;
 
     local procedure "--- Event Wrapper"();

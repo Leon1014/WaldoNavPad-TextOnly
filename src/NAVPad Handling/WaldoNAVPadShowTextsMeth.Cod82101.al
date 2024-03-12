@@ -26,45 +26,27 @@ codeunit 82101 "WaldoNAVPad ShowTexts Meth"
 
     local procedure GetTextFromWaldoNAVPadBlob(var RecRef: RecordRef): Text;
     var
-        TempBlob: Codeunit "Temp Blob";
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
         ReaderStream: InStream;
-        WriterStream: OutStream;
-        TempText: Text;
+        TextBigText: BigText;
     begin
-        with WaldoNAVPadBlobstore do begin
-            SETRANGE("Record ID", RecRef.RECORDID());
-            if not FINDFIRST() then exit('');
-            if not Blob.HASVALUE() then exit('');
+        WaldoNavPadBlobStore.Setrange("Record ID", RecRef.RecordId());
+        if not WaldoNAVPadBlobstore.FindFirst() then exit('');
+        if not WaldoNAVPadBlobstore.Blob.HasValue() then exit('');
 
-            CALCFIELDS(Blob);
-            Blob.CreateInStream(ReaderStream);
-            TempBlob.CreateOutStream(WriterStream);
-            ReaderStream.ReadText(TempText);
-            WriterStream.WriteText(TempText);
+        WaldoNAVPadBlobstore.CalcFields(Blob);
+        WaldoNAVPadBlobstore.Blob.CreateInStream(ReaderStream);
+        TextBigText.Read(ReaderStream);
 
-            exit(GetTextFromBlob(TempBlob));
-        end;
+        exit(Format(TextBigText));
     end;
 
     local procedure LoadTextfromDialog(var TextFromBlob: Text; Editable: Boolean; var ResultWaldoNAVPadTextClass: Codeunit "WaldoNAVPad Text Class");
     var
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
-        with ResultWaldoNAVPadTextClass do begin
-            Initialize(TextFromBlob, MAXSTRLEN(WaldoNAVPadTextstore.Textline));
-            LoadTextFromDialog(Editable);
-        end;
-    end;
-
-    local procedure GetTextFromBlob(var TempBlob: Codeunit "Temp Blob"): Text;
-    var
-        TextBigText: BigText;
-        ReadStream: InStream;
-    begin
-        TempBlob.CreateInStream(ReadStream);
-        TextBigText.READ(ReadStream);
-        exit(FORMAT(TextBigText));
+        ResultWaldoNAVPadTextClass.Initialize(TextFromBlob, MaxStrLen(WaldoNAVPadTextstore.Textline));
+        ResultWaldoNAVPadTextClass.LoadTextFromDialog(Editable);
     end;
 
     [IntegrationEvent(false, false)]

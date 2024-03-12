@@ -34,20 +34,16 @@ codeunit 82109 "WaldoNAVPad Subscribers"
     var
         WaldoNAVPadBlobstore: Record "WaldoNAVPad Blobstore";
     begin
-        with WaldoNAVPadBlobstore do begin
-            SETRANGE("Record ID", xRecRef.RECORDID());
-            MODIFYALL("Record ID", RecRef.RECORDID(), false);
-        end;
+        WaldoNAVPadBlobstore.SetRange("Record ID", xRecRef.RecordId());
+        WaldoNAVPadBlobstore.ModifyAll("Record ID", RecRef.RecordId(), false);
     end;
 
     local procedure HandleTextStore(var RecRef: RecordRef; var xRecRef: RecordRef);
     var
         WaldoNAVPadTextstore: Record "WaldoNAVPad Textstore";
     begin
-        with WaldoNAVPadTextstore do begin
-            SETRANGE("Record ID", xRecRef.RECORDID());
-            MODIFYALL("Record ID", RecRef.RECORDID(), false);
-        end;
+        WaldoNAVPadTextstore.SetRange("Record ID", xRecRef.RecordId());
+        WaldoNAVPadTextstore.ModifyAll("Record ID", RecRef.RecordId(), false);
     end;
 }
 

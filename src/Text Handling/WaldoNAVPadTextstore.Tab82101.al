@@ -11,7 +11,7 @@ table 82101 "WaldoNAVPad Textstore"
         {
             DataClassification = CustomerContent;
         }
-        field(20; Textline; Text[80])
+        field(20; Textline; Text[100])
         {
             DataClassification = CustomerContent;
         }
