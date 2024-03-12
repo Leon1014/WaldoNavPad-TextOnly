@@ -50,12 +50,14 @@ codeunit 82111 "WaldoNAVPad Text Parse Meth"
                 SpaceIndex := MaxLength;
             if SpaceIndex = 1 then //First Character is a space
                 SpaceIndex := MaxLength;
+
             ResultString := SubString;
             if SpaceIndex < strlen(SubString) then begin
                 ResultString := SubString.Substring(1, SpaceIndex);
                 AddToBuffer(LineNo, ResultString, ResultWaldoNAVPadTextBuffer.Separator::" ", ResultWaldoNAVPadTextBuffer);
-            end else
-                AddToBuffer(LineNo, ResultString, ResultWaldoNAVPadTextBuffer.Separator::Space, ResultWaldoNAVPadTextBuffer);
+            end else begin
+                AddToBuffer(LineNo, ResultString.Substring(1, SpaceIndex - 1), ResultWaldoNAVPadTextBuffer.Separator::Space, ResultWaldoNAVPadTextBuffer);
+            end;
 
             Line := Line.Remove(1, strlen(ResultString));
         end;
@@ -63,7 +65,7 @@ codeunit 82111 "WaldoNAVPad Text Parse Meth"
         AddToBuffer(LineNo, Line, ResultWaldoNAVPadTextBuffer.Separator::"Carriage Return", ResultWaldoNAVPadTextBuffer);
     end;
 
-    local procedure AddToBuffer(var LineNo: Integer; var Line: Text; pSeparator: Integer; var ResultWaldoNAVPadTextBuffer: Record "WaldoNAVPad Text Buffer");
+    local procedure AddToBuffer(var LineNo: Integer; Line: Text; pSeparator: Integer; var ResultWaldoNAVPadTextBuffer: Record "WaldoNAVPad Text Buffer");
     begin
         LineNo += 1;
 
