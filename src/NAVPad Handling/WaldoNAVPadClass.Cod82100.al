@@ -17,6 +17,11 @@ codeunit 82100 "WaldoNAVPad Class"
         IsTextLoaded := false;
     end;
 
+    procedure SetTextLength(Length: Integer)
+    begin
+        WaldoNAVPadTextClass.SetMaxLength(Length);
+    end;
+
     procedure ShowAndSaveTexts(Editable: Boolean): Boolean
     begin
         if not IsInitialized then ERROR(NotInitializedErr);
