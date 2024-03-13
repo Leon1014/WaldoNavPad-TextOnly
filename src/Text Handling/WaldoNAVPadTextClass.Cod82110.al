@@ -6,14 +6,14 @@ codeunit 82110 "WaldoNAVPad Text Class"
 
     var
         WaldoNAVPadTextBuffer: Record "WaldoNAVPad Text Buffer" temporary;
-        MaxLenght: Integer;
+        MaxLength: Integer;
         CurrentText: Text;
         CurrentHTML: Text;
         CurrentTextIsUpdated: Boolean;
 
     procedure Initialize(var Text: Text; pMaxLength: Integer);
     begin
-        SetMaxLenght(pMaxLength);
+        SetMaxLength(pMaxLength);
         CurrentText := Text;
         CurrentHTML := Text;
         ParseText(CurrentText);
@@ -44,14 +44,15 @@ codeunit 82110 "WaldoNAVPad Text Class"
             exit(CurrentHTML);
     end;
 
-    procedure SetMaxLenght(pMaxLenght: Integer);
+    procedure SetMaxLength(pMaxLength: Integer);
     begin
-        MaxLenght := pMaxLenght;
+        if MaxLength = 0 then //Max length not being 0 means a custom length was set beforehand.
+            MaxLength := pMaxLength;
     end;
 
     procedure GetMaxLength(): Integer;
     begin
-        exit(MaxLenght);
+        exit(MaxLength);
     end;
 
     procedure GetCurrentTextLine(): Text;
